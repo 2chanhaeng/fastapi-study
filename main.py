@@ -1,6 +1,8 @@
 from enum import Enum
 from fastapi import FastAPI
 
+from domain.board.router import router as board_router
+
 app = FastAPI()
 
 
@@ -33,3 +35,5 @@ async def read_query(
     string: str = "default", integer: int = 0, optional: str | None = None
 ):
     return {"string": string, "integer": integer, "optional": optional}
+
+app.include_router(board_router)
