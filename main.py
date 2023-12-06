@@ -29,5 +29,7 @@ async def read_item(item_id: LoonaSubUnit):
 
 
 @app.get("/query")
-async def read_query(string: str = "default", integer: int = 0):
-    return {"string": string, "integer": integer}
+async def read_query(
+    string: str = "default", integer: int = 0, optional: str | None = None
+):
+    return {"string": string, "integer": integer, "optional": optional}
