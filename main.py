@@ -26,3 +26,8 @@ async def read_item(item_id: LoonaSubUnit):
             return {"item_id": item_id, "subunit": "LOONA yyxy"}
         case _:
             return {"item_id": item_id, "subunit": "LOONA"}
+
+
+@app.get("/query")
+async def read_query(string: str = "default", integer: int = 0):
+    return {"string": string, "integer": integer}
