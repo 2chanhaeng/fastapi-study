@@ -14,3 +14,12 @@ def reads():
     db.close()
     return boards
 
+
+@router.get("/{board_subject}")
+def read(board_subject: str):
+    with SessionLocal() as db:
+        board = db.query(Board).filter(Board.subject == board_subject).first()
+        if board is None:
+            raise HTTPException(status_code=404, detail="Board not found")
+        return board
+
