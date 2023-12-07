@@ -10,7 +10,7 @@ class BoardCreateDto(BaseModel):
 
 
 class BoardResponseDto(BaseModel):
-    id: UUID
+    id: int
     subject: str
     description: str
     create_date: datetime.datetime
