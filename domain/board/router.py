@@ -2,8 +2,9 @@ from datetime import datetime
 from fastapi import APIRouter, HTTPException, Depends
 from sqlalchemy.orm import Session
 from database import get_db
-from models import Board
+from models import Board, Post
 from schemas.board import BoardCreateDto, BoardReadDto
+from schemas.post import PostCreateDto, PostReadDto
 
 router = APIRouter(
     prefix="/board",
@@ -14,6 +15,26 @@ router = APIRouter(
 def reads_board(db: Session = Depends(get_db)):
     boards = db.query(Board).order_by(Board.subject.asc()).all()
     return [board.subject for board in boards]
+
+
+@router.post("/{subject}")
+def create_post(subject: str, post: PostCreateDto, db: Session = Depends(get_db)):
+    board = db.query(Board).filter(Board.subject == subject).first()
+    if board is None:
+        raise HTTPException(status_code=404, detail="Board not found")
+    try:
+        p = Post(
+            subject=post.subject,
+            content=post.content,
+            board_id=board.id,
+            create_date=datetime.now(),
+        )
+        db.add(p)
+        db.commit()
+        return {"id": p.id}
+    except Exception as e:
+        print(e)
+        raise HTTPException(status_code=400)
 
 
 @router.get("/{subject}", response_model=BoardReadDto)
