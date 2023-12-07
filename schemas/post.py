@@ -22,6 +22,10 @@ class PostCreateDto(BaseModel):
         return f"<PostCreateDto subject={self.subject} content={self.content}>"
 
 
+class PostCreatedDto(BaseModel):
+    id: int
+
+
 class PostReadsDto(BaseModel):
     id: int
     subject: str
