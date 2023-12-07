@@ -1,5 +1,6 @@
 import datetime
 from pydantic import BaseModel
+from .post import PostReadsDto
 
 
 class BoardCreateDto(BaseModel):
@@ -12,3 +13,4 @@ class BoardReadDto(BaseModel):
     subject: str
     description: str
     create_date: datetime.datetime
+    posts: list[PostReadsDto]
