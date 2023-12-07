@@ -25,3 +25,8 @@ class PostCreateDto(BaseModel):
             raise ValueError("wrong board id")
         return v
 
+
+class PostReadsDto(BaseModel):
+    id: int
+    subject: str
+
