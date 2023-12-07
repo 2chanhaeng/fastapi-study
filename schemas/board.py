@@ -1,5 +1,4 @@
 import datetime
-
 from pydantic import BaseModel
 
 
@@ -8,7 +7,7 @@ class BoardCreateDto(BaseModel):
     description: str
 
 
-class BoardResponseDto(BaseModel):
+class BoardReadDto(BaseModel):
     id: int
     subject: str
     description: str
