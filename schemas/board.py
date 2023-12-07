@@ -8,6 +8,10 @@ class BoardCreateDto(BaseModel):
     description: str
 
 
+class BoardCreatedDto(BaseModel):
+    subject: str
+
+
 class BoardReadDto(BaseModel):
     id: int
     subject: str

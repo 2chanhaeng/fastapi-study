@@ -3,7 +3,7 @@ from fastapi import APIRouter, HTTPException, Depends
 from sqlalchemy.orm import Session
 from database import get_db
 from models import Board
-from schemas.board import BoardCreateDto
+from schemas.board import BoardCreateDto, BoardCreatedDto
 from ..post.router import router as post_router
 
 router = APIRouter(
@@ -17,7 +17,7 @@ def reads_board(db: Session = Depends(get_db)):
     return [board.subject for board in boards]
 
 
-@router.post("/")
+@router.post("/", response_model=BoardCreatedDto)
 def create_board(board: BoardCreateDto, db: Session = Depends(get_db)):
     try:
         subject = board.subject
@@ -30,7 +30,7 @@ def create_board(board: BoardCreateDto, db: Session = Depends(get_db)):
         )
         db.add(b)
         db.commit()
-        return {"message": True}
+        return b
     except Exception as e:
         print(e)
         raise HTTPException(status_code=400)
