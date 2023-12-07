@@ -18,6 +18,8 @@ class PostCreateDto(BaseModel):
             raise ValueError("must not be empty")
         return v
 
+    def __repr__(self) -> str:
+        return f"<PostCreateDto subject={self.subject} content={self.content}>"
 
 
 class PostReadsDto(BaseModel):
