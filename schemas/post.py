@@ -30,3 +30,10 @@ class PostReadsDto(BaseModel):
     id: int
     subject: str
 
+
+class PostReadDto(BaseModel):
+    id: int
+    subject: str
+    content: str
+    create_date: datetime.datetime
+    board_id: int
