@@ -210,3 +210,4 @@ pyrightconfig.json
 *.ini
 migrations/
 *.db
+view/
