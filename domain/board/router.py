@@ -16,13 +16,12 @@ def reads(db: Session = Depends(get_db)):
     return [board.subject for board in boards]
 
 
-@router.get("/{board_subject}")
-def read(board_subject: str):
-    with SessionLocal() as db:
-        board = db.query(Board).filter(Board.subject == board_subject).first()
-        if board is None:
-            raise HTTPException(status_code=404, detail="Board not found")
-        return board
+@router.get("/{board_subject}", response_model=BoardReadDto)
+def read(subject: str, db: Session = Depends(get_db)):
+    board = db.query(Board).filter(Board.subject == subject).first()
+    if board is None:
+        raise HTTPException(status_code=404, detail="Board not found")
+    return board
 
 
 @router.post("/")
