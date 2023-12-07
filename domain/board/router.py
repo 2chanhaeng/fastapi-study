@@ -25,20 +25,19 @@ def read(subject: str, db: Session = Depends(get_db)):
 
 
 @router.post("/")
-def create(board: BoardCreateDto):
+def create(board: BoardCreateDto, db: Session = Depends(get_db)):
     try:
-        with SessionLocal() as db:
-            subject = board.subject
-            if db.query(Board).filter(Board.subject == subject).first():
-                raise HTTPException(status_code=400, detail="Board already exists")
-            b = Board(
-                subject=subject,
-                description=board.description,
-                create_date=datetime.now(),
-            )
-            db.add(b)
-            db.commit()
-            return {"message": True}
+        subject = board.subject
+        if db.query(Board).filter(Board.subject == subject).first():
+            raise HTTPException(status_code=400, detail="Board already exists")
+        b = Board(
+            subject=subject,
+            description=board.description,
+            create_date=datetime.now(),
+        )
+        db.add(b)
+        db.commit()
+        return {"message": True}
     except Exception as e:
         print(e)
         raise HTTPException(status_code=400)
