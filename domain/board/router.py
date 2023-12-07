@@ -1,19 +1,19 @@
 from datetime import datetime
-from fastapi import APIRouter, HTTPException
-from database import SessionLocal
+from fastapi import APIRouter, HTTPException, Depends
+from sqlalchemy.orm import Session
+from database import get_db
 from models import Board
-from schemas.board import BoardCreateDto
+from schemas.board import BoardCreateDto, BoardReadDto
 
 router = APIRouter(
     prefix="/board",
 )
 
 
-@router.get("/")
-def reads():
-    with SessionLocal() as db:
-        boards = db.query(Board).order_by(Board.create_date.desc()).all()
-        return boards
+@router.get("/", response_model=list[str])
+def reads(db: Session = Depends(get_db)):
+    boards = db.query(Board).order_by(Board.subject.asc()).all()
+    return [board.subject for board in boards]
 
 
 @router.get("/{board_subject}")
