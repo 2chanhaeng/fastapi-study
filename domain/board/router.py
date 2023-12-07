@@ -2,7 +2,7 @@ from datetime import datetime
 from fastapi import APIRouter, HTTPException
 from database import SessionLocal
 from models import Board
-from schemas.board import BoardCreateDto, BoardResponseDto
+from schemas.board import BoardCreateDto
 
 router = APIRouter(
     prefix="/board",
