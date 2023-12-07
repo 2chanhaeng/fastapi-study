@@ -17,6 +17,25 @@ def reads_board(db: Session = Depends(get_db)):
     return [board.subject for board in boards]
 
 
+@router.post("/")
+def create_board(board: BoardCreateDto, db: Session = Depends(get_db)):
+    try:
+        subject = board.subject
+        if db.query(Board).filter(Board.subject == subject).first():
+            raise HTTPException(status_code=400, detail="Board already exists")
+        b = Board(
+            subject=subject,
+            description=board.description,
+            create_date=datetime.now(),
+        )
+        db.add(b)
+        db.commit()
+        return {"message": True}
+    except Exception as e:
+        print(e)
+        raise HTTPException(status_code=400)
+
+
 @router.post("/{subject}")
 def create_post(subject: str, post: PostCreateDto, db: Session = Depends(get_db)):
     board = db.query(Board).filter(Board.subject == subject).first()
@@ -54,22 +73,3 @@ def read_board(subject: str, db: Session = Depends(get_db)):
     if board is None:
         raise HTTPException(status_code=404, detail="Board not found")
     return board
-
-
-@router.post("/")
-def create_board(board: BoardCreateDto, db: Session = Depends(get_db)):
-    try:
-        subject = board.subject
-        if db.query(Board).filter(Board.subject == subject).first():
-            raise HTTPException(status_code=400, detail="Board already exists")
-        b = Board(
-            subject=subject,
-            description=board.description,
-            create_date=datetime.now(),
-        )
-        db.add(b)
-        db.commit()
-        return {"message": True}
-    except Exception as e:
-        print(e)
-        raise HTTPException(status_code=400)
