@@ -11,10 +11,9 @@ router = APIRouter(
 
 @router.get("/")
 def reads():
-    db = SessionLocal()
-    boards = db.query(Board).order_by(Board.create_date.desc()).all()
-    db.close()
-    return boards
+    with SessionLocal() as db:
+        boards = db.query(Board).order_by(Board.create_date.desc()).all()
+        return boards
 
 
 @router.get("/{board_subject}")
