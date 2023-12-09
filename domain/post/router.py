@@ -37,8 +37,8 @@ def read_post(subject: str, post_id: int, db: Session = Depends(get_db)):
     post = db.get(Post, post_id)
     if post is None:
         raise HTTPException(status_code=404, detail="Post not found")
-    board = db.query(Board, post.board_id).filter(Board.subject == subject).first()
-    if board is None:
+    board = db.get(Board, post.board_id)
+    if board is None or board.subject != subject:  # type: ignore
         raise HTTPException(status_code=404, detail="Post not found")
     return post
 
