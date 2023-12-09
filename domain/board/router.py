@@ -1,9 +1,12 @@
 from datetime import datetime
-from fastapi import APIRouter, HTTPException, Depends
+
+from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
+
 from database import get_db
 from models import Board
-from schemas.board import BoardCreateDto, BoardCreatedDto
+from schemas.board import BoardCreatedDto, BoardCreateDto
+
 from ..post.router import router as post_router
 
 router = APIRouter(
