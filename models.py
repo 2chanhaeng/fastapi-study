@@ -15,7 +15,7 @@ class Board(Base):
     )
 
     def __repr__(self):
-        return f"<Board {self.subject} created as {self.create_date}>"
+        return f"<Board {self.subject} created at {self.create_date}>"
 
 
 class Post(Base):
@@ -29,3 +29,10 @@ class Post(Base):
     )
     board_id = Column(Integer, ForeignKey("board.id"))
     post = relationship(Board, backref="posts")
+
+    def __repr__(self):
+        return (
+            f"<Post {self.subject}"
+            f" in board {self.board_id}"
+            f" created at {self.create_date}>"
+        )
