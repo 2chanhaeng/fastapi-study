@@ -21,9 +21,24 @@ class BoardCreateDto(BaseModel):
             raise ValueError("must not be empty")
         return v
 
+    def __str__(self) -> str:
+        return f"DTO to create board about '{self.subject}'"
+
+    def __repr__(self) -> str:
+        return (
+            f"BoardCreateDto(subject={repr(self.subject)}, "
+            f"description={repr(self.description)})"
+        )
+
 
 class BoardCreatedDto(BaseModel):
     subject: str
+
+    def __str__(self) -> str:
+        return f"DTO of created board about '{self.subject}'"
+
+    def __repr__(self) -> str:
+        return f"BoardCreatedDto(subject={repr(self.subject)})"
 
 
 class BoardReadDto(BaseModel):
@@ -32,3 +47,19 @@ class BoardReadDto(BaseModel):
     description: str
     create_date: datetime.datetime
     posts: list[PostReadsDto]
+
+    def __str__(self) -> str:
+        return (
+            f"DTO of board( {self.id} ) "
+            f"about '{self.subject}' "
+            f"created at {self.create_date}"
+        )
+
+    def __repr__(self) -> str:
+        return (
+            f"BoardReadDto(id={repr(self.id)}, "
+            f"subject={repr(self.subject)}, "
+            f"description={repr(self.description)}, "
+            f"create_date={repr(self.create_date)}, "
+            f"posts={repr(self.posts)})"
+        )
