@@ -7,6 +7,7 @@ from database import get_db
 from models import Board, Post
 from schemas.board import BoardReadDto
 from schemas.post import PostCreatedDto, PostCreateDto, PostReadDto
+from utils.post import specify_post
 
 router = APIRouter(
     prefix="/{subject}",
@@ -35,12 +36,7 @@ def create_post(subject: str, post: PostCreateDto, db: Session = Depends(get_db)
 
 @router.get("/{post_id}", response_model=PostReadDto)
 def read_post(subject: str, post_id: int, db: Session = Depends(get_db)):
-    post = db.get(Post, post_id)
-    if post is None:
-        raise HTTPException(status_code=404, detail="Post not found")
-    board = db.get(Board, post.board_id)
-    if board is None or board.subject != subject:  # type: ignore
-        raise HTTPException(status_code=404, detail="Post not found")
+    post = specify_post(subject, post_id, db)
     return post
 
 
