@@ -8,14 +8,14 @@ class PostCreateDto(BaseModel):
     content: str
 
     @field_validator("subject")
-    def subject_must_not_be_empty(cls, v):
-        if v == "":
+    def subject_must_not_be_empty(cls, v: str):
+        if v.strip() == "":
             raise ValueError("must not be empty")
         return v
 
     @field_validator("content")
-    def content_must_not_be_empty(cls, v):
-        if v == "":
+    def content_must_not_be_empty(cls, v: str):
+        if v.strip() == "":
             raise ValueError("must not be empty")
         return v
 
