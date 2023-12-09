@@ -4,9 +4,9 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
 from database import get_db
+from dto.board import BoardReadDto
+from dto.post import PostCreatedDto, PostCreateDto, PostReadDto
 from models import Board, Post
-from schemas.board import BoardReadDto
-from schemas.post import PostCreatedDto, PostCreateDto, PostReadDto
 from utils.post import specify_post
 
 router = APIRouter(
