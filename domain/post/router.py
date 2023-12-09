@@ -48,6 +48,16 @@ def delete_post(subject: str, post_id: int, db: Session = Depends(get_db)):
     return {"id": post.id}
 
 
+@router.put("/{post_id}", response_model=PostCreatedDto)
+def update_post(
+    subject: str, post_id: int, post: PostCreateDto, db: Session = Depends(get_db)
+):
+    db.query(Post).filter(Post.id == post_id).update(post.model_dump())
+    db.commit()
+    post = specify_post(subject, post_id, db)
+    return post
+
+
 @router.get("", response_model=BoardReadDto)
 def read_board(subject: str, db: Session = Depends(get_db)):
     board = db.query(Board).filter(Board.subject == subject).first()
