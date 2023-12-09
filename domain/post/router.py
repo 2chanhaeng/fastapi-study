@@ -12,7 +12,7 @@ router = APIRouter(
 )
 
 
-@router.post("/", response_model=PostCreatedDto)
+@router.post("", response_model=PostCreatedDto)
 def create_post(subject: str, post: PostCreateDto, db: Session = Depends(get_db)):
     board = db.query(Board).filter(Board.subject == subject).first()
     if board is None:
@@ -43,7 +43,7 @@ def read_post(subject: str, post_id: int, db: Session = Depends(get_db)):
     return post
 
 
-@router.get("/", response_model=BoardReadDto)
+@router.get("", response_model=BoardReadDto)
 def read_board(subject: str, db: Session = Depends(get_db)):
     board = db.query(Board).filter(Board.subject == subject).first()
     if board is None:
